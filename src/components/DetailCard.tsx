@@ -1,5 +1,6 @@
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
+import { Link } from "react-router-dom";
 import { ArticleInterface } from "../interfaces/ArticleInterface";
 
 interface ArticleProps {
@@ -12,18 +13,14 @@ const DetailCard = function ({ articleDetails }: ArticleProps) {
       <Card.Img variant="top" src={articleDetails.image_url} />
       <Card.Body>
         <Card.Title>{articleDetails.title}</Card.Title>
-        <Card.Text>
-          {articleDetails.summary} | {articleDetails.news_site} | {}
-        </Card.Text>
+        <Card.Text>{articleDetails.summary}</Card.Text>
       </Card.Body>
       <ListGroup className="list-group-flush">
-        <ListGroup.Item>Cras justo odio</ListGroup.Item>
-        <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-        <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+        <ListGroup.Item>{articleDetails.news_site}</ListGroup.Item>
+        <ListGroup.Item>{articleDetails.updated_at}</ListGroup.Item>
       </ListGroup>
       <Card.Body>
-        <Card.Link href="#">Card Link</Card.Link>
-        <Card.Link href="#">Another Link</Card.Link>
+        <Link to={articleDetails.url}>Web site!</Link>
       </Card.Body>
     </Card>
   );

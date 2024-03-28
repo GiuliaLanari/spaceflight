@@ -9,12 +9,14 @@ interface ArticleProps {
 
 const Article = function ({ articleDetails }: ArticleProps) {
   return (
-    <Card>
-      <Card.Img variant="top" src={articleDetails.image_url} />
-      <Card.Body>
+    <Card style={{ height: "100%" }}>
+      <Card.Img variant="top" src={articleDetails.image_url} style={{ height: "10rem", objectFit: "cover" }} />
+      <Card.Body className="d-flex flex-column">
         <Card.Title>{articleDetails.title}</Card.Title>
-        <Card.Text>{articleDetails.summary}</Card.Text>
-        <Link to={"/details/" + articleDetails.id}>
+        <Card.Text style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          {articleDetails.summary}
+        </Card.Text>
+        <Link to={"/details/" + articleDetails.id} className="mt-auto">
           <Button variant="info">Show Details</Button>
         </Link>
       </Card.Body>

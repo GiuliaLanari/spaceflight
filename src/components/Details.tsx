@@ -1,6 +1,7 @@
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+import Spinner from "react-bootstrap/Spinner";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { ArticleInterface } from "../interfaces/ArticleInterface";
@@ -10,11 +11,12 @@ import DetailCard from "./DetailCard";
 
 const Details = function () {
   const params = useParams();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [arrArticles, setArrArticles] = useState<ArticleInterface[]>([]);
+  const [objArticles, setObjArticles] = useState<ArticleInterface | null>(null);
 
   const fetchArticles = function () {
-    fetch("https://api.spaceflightnewsapi.net/v4/articles/" + params)
+    fetch("https://api.spaceflightnewsapi.net/v4/articles/" + params.id)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -22,28 +24,40 @@ const Details = function () {
           throw new Error("Ci sono problemi nel caricamento!");
         }
       })
-      .then((arrArticles: ArticleInterface[]) => {
-        setArrArticles(arrArticles);
+      .then((objArticles: ArticleInterface) => {
+        setObjArticles(objArticles);
+        setIsLoading(false);
       })
-      .catch((error) => console.log("errore", error));
+      .catch((error) => {
+        console.log("errore", error);
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
     fetchArticles();
-  }, []);
+  }, [params.id]);
 
   return (
-    <Container>
-      <Row className="justify-content-center">
-        <h1 className="text-center my-5 display-4">Details of -nome dell'articolo-</h1>
+    <>
+      {isLoading ? (
+        <div className="d-flex justify-content-cente">
+          <Spinner animation="border" variant="info" />
+        </div>
+      ) : (
+        <Container className="mb-5">
+          <Row className="justify-content-center">
+            <h1 className="text-center my-5 display-4 text-white">Details of -nome dell'articolo-</h1>
 
-        {arrArticles.map((a) => (
-          <Col xs={12} md={8}>
-            <DetailCard articleDetails={a} />
-          </Col>
-        ))}
-      </Row>
-    </Container>
+            {objArticles && (
+              <Col xs={12} md={8}>
+                <DetailCard articleDetails={objArticles} />
+              </Col>
+            )}
+          </Row>
+        </Container>
+      )}
+    </>
   );
 };
 

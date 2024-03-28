@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const NavBar = function () {
   return (
-    <Navbar expand="md" bg="dark" data-bs-theme="dark">
+    <Navbar expand="md" bg="black" data-bs-theme="dark">
       <Container fluid>
         <Navbar.Brand href="#">Space Flight</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -13,9 +13,6 @@ const NavBar = function () {
           <Nav className="ms-auto my-2 my-lg-0" style={{ maxHeight: "100px" }} navbarScroll>
             <Link to="/" className="nav-link">
               Home
-            </Link>
-            <Link to="/:details" className="nav-link">
-              Details
             </Link>
           </Nav>
         </Navbar.Collapse>
